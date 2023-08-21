@@ -72,6 +72,7 @@ a{
 
 .para-vue{
   color: white;
+  font-weight: bold;
 }
 
 .log-class{
