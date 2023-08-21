@@ -1,4 +1,3 @@
-
 <script setup>
 
 import { RouterLink, RouterView } from 'vue-router'
@@ -18,11 +17,13 @@ import ProfilPicture from '../assets/imgs/pp.jpeg'
             <nav class="navbar-container">
                 <RouterLink to="/">Accueil</RouterLink>
                 <RouterLink to="/films">Films</RouterLink>
-                <RouterLink to="/about">A propos</RouterLink>
-                <a @click="isConnected = !isConnected" class="log-class" v-if="isConnected">Connexion</a>
+                <RouterLink to="/a-propos">A propos</RouterLink>
+                <a @click="isConnected = !isConnected" class="log-class" v-if="!isConnected">Connexion</a>
                 <div v-else class="name-container">
                     <p>Prénom</p>
-                    <img :src="ProfilPicture" alt="Photo de Profil" class="pp-img">
+                    <div>
+                        <img :src="ProfilPicture" alt="Photo de Profil" class="pp-img">
+                    </div>
                     <button @click="isConnected = !isConnected" class="quit-cross">X</button>
                 </div>
             </nav>
@@ -53,6 +54,8 @@ a{
     width: 40px;
     height: 40px;
     border-radius: 40px;
+    display: flex;
+    align-items: center;
 }
 
 .navbar-container{
@@ -83,6 +86,8 @@ a{
     color: white;
     justify-content: space-between;
     gap: 10px;
+    height: 100%;
+    align-items: center;
 }
 
 .quit-cross{
