@@ -30,11 +30,23 @@ const listDevs = ref([
     },
 ])    
 
+const offDescState = (index) =>{
+
+    for (let i = 0; i < listDevs.value.length; i++) {
+        if(listDevs.value[i].showdesc = true){
+            listDevs.value[i].showdesc = false
+        }        
+    }
+
+    listDevs.value[index].showdesc = true
+
+}
+
 </script>
 
 <template>
 
-    <div v-for="person in listDevs" class="dev-container">
+    <div v-for="(person, index) in listDevs" class="dev-container">
 
         <div class="pp-devs-container">
 
@@ -47,7 +59,7 @@ const listDevs = ref([
 
             <p class="role">{{ person.role }}</p>
 
-            <button @click="person.showdesc = true" v-if="!person.showdesc" class="bio-btn">Voir biographie</button>
+            <button @click="offDescState(index)" v-if="!person.showdesc" class="bio-btn">Voir biographie</button>
 
             <p class="description" v-if="person.showdesc">{{ person.description }}</p>
 
@@ -58,7 +70,7 @@ const listDevs = ref([
 </template>
 
 
-<style sc>
+<style lang="scss" scope>
 
     .dev-container{
         margin: 10px;
@@ -71,20 +83,21 @@ const listDevs = ref([
         flex-direction: row;
     }
 
-    .pp-devs{
-        height: 70%;
-        border-radius: 100000px;
-    }
-
     .pp-devs-container{
         margin-top: 20px;
         margin-left: 20px;
-    }
 
-    .role, .name{
+        .pp-devs{
+            height: 70%;
+            border-radius: 100000px;
+        }
+        .name{
         font-weight: bold;
         text-align: center;
     }
+    }
+
+    
 
     .role-desc-container{
         display: flex;
@@ -95,9 +108,11 @@ const listDevs = ref([
         width: 100%;
         height: 100%;
         align-items: center;
-    }
-
-    .bio-btn{
+        .role{
+            font-weight: bold;
+            text-align: center;
+        }
+        .bio-btn{
         border: 0;
         background-color: rgb(170, 47, 38);
         padding: 10px;
@@ -105,10 +120,10 @@ const listDevs = ref([
         cursor: pointer;
         border-radius: 5px;
         width: 120px;
-    }
-
-    .bio-btn:hover{
-        background-color: rgb(153 27 27);
+            &:hover{
+                background-color: rgb(153 27 27);
+            }
+        }
     }
 
 </style>
