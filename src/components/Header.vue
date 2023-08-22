@@ -2,9 +2,22 @@
 
 import { RouterLink, RouterView } from 'vue-router'
 import { ref } from 'vue'
+import Burger from './Burger.vue'
 const isConnected = ref(false)
+const isResponsive = ref(true)
 
 import ProfilPicture from '../assets/imgs/pp.jpeg'
+
+function updateFullSideBar() {
+  if(window.matchMedia("(min-width: 900px)").matches){
+    isResponsive.value = false
+  } else{
+    isResponsive.value = true
+  }
+}
+
+window.addEventListener("resize", updateFullSideBar);
+
 
 </script>
 
@@ -15,16 +28,27 @@ import ProfilPicture from '../assets/imgs/pp.jpeg'
         <p class="para-vue">Vue<span class="para-flix">Flix</span></p>
         <RouterView>
             <nav class="navbar-container">
-                <RouterLink to="/">Accueil</RouterLink>
-                <RouterLink to="/films">Films</RouterLink>
-                <RouterLink to="/a-propos">A propos</RouterLink>
-                <a @click="isConnected = !isConnected" class="log-class" v-if="!isConnected">Connexion</a>
-                <div v-else class="name-container">
-                    <p>Prénom</p>
-                    <div>
-                        <img :src="ProfilPicture" alt="Photo de Profil" class="pp-img">
+
+                <div class="" v-if="isResponsive">
+
+                    <Burger/>
+
+                </div>
+                 
+                <div class="classic-menu" v-if="!isResponsive">
+                    <RouterLink to="/">Accueil</RouterLink>
+                    <RouterLink to="/films">Films</RouterLink>
+                    <RouterLink to="/a-propos">A propos</RouterLink>
+                    <a @click="isConnected = !isConnected" class="log-class" v-if="!isConnected">Connexion</a>
+                    <div v-else class="name-container">
+                        <p>Prénom</p>
+                        <div>
+                            <img :src="ProfilPicture" alt="Photo de Profil" class="pp-img">
+                        </div>
+                        <button @click="isConnected = !isConnected" class="quit-cross">X</button>
+                    
                     </div>
-                    <button @click="isConnected = !isConnected" class="quit-cross">X</button>
+                
                 </div>
             </nav>
         </RouterView>
@@ -33,7 +57,7 @@ import ProfilPicture from '../assets/imgs/pp.jpeg'
 </template>
 
 
-<style scoped>
+<style lang="scss">
 
 header{
   background-color: rgb(42, 56, 64);
@@ -43,6 +67,9 @@ header{
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  .hidden{
+    display: none;
+  }
 }
 
 a{
@@ -65,6 +92,14 @@ a{
     height: 100%;
     align-items: center;
     font-size: 16px;
+    .reponsive-menu{
+        color: white
+    }
+    .classic-menu{
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
 }
 .para-flix{
     color: rgb(231, 116, 112)
@@ -99,6 +134,12 @@ a{
 	cursor: pointer;
     font-size: 16px;
     
+}
+
+@media screen and (max-width: 900px){
+    .navbar-container{
+    justify-content: end;
+    }
 }
 
 </style>

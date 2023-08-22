@@ -2,28 +2,28 @@
 
 import { ref } from 'vue'
 
-import PicturePerson1 from '@/assets/imgs/person2.jpeg'
-import PicturePerson2 from '@/assets/imgs/person3.jpeg'
-import PicturePerson3 from '@/assets/imgs/person1.jpeg'
+import PicturePerson1 from '@/assets/imgs/person2.jpg'
+import PicturePerson2 from '@/assets/imgs/person3.png'
+import PicturePerson3 from '@/assets/imgs/person1.jpg'
 
 const listDevs = ref([
     {
         role: "Manager",
-        name: "Fiorella",
+        name: "Roulianes",
         showdesc: false,
         picture: PicturePerson1,
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fermentum malesuada odio eget vulputate. Ut ut elit nec lorem faucibus rutrum quis sit amet ligula. Morbi aliquet, nisl non bibendum facilisis, nibh augue sodales purus, id scelerisque ligula ligula ut lorem. Quisque efficitur non odio a consectetur."
     },
     {
         role: "Développeur",
-        name: "Matthieu",
+        name: "Lord Mathieu",
         showdesc: false,
         picture: PicturePerson2,
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fermentum malesuada odio eget vulputate. Ut ut elit nec lorem faucibus rutrum quis sit amet ligula. Morbi aliquet, nisl non bibendum facilisis, nibh augue sodales purus, id scelerisque ligula ligula ut lorem. Quisque efficitur non odio a consectetur."
     },
     {
-        role: "Commerciale",
-        name: "Marina",
+        role: "Commercial",
+        name: "Slipeur",
         showdesc: false,
         picture: PicturePerson3,
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fermentum malesuada odio eget vulputate. Ut ut elit nec lorem faucibus rutrum quis sit amet ligula. Morbi aliquet, nisl non bibendum facilisis, nibh augue sodales purus, id scelerisque ligula ligula ut lorem. Quisque efficitur non odio a consectetur."
@@ -88,7 +88,10 @@ const offDescState = (index) =>{
         margin-left: 20px;
 
         .pp-devs{
-            height: 70%;
+            width: 160px;
+            height: 160px;
+            overflow: hidden;
+            object-fit: cover;
             border-radius: 100000px;
         }
         .name{
