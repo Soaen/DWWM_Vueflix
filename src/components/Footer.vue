@@ -21,7 +21,7 @@ fetch(url + '/movies')
         <div class="border-top"></div>
 
 
-        <p>Copyright 2023. Catalogue de {{ nbFilmsTotal }} films.</p>
+        <p>Copyright © 2023. Catalogue de <span class="film-total">{{ nbFilmsTotal }}</span> films.</p>
 
     </footer>
     
@@ -29,7 +29,7 @@ fetch(url + '/movies')
 </template>
 
 
-<style>
+<style scoped>
 
     footer{
         display: flex;
@@ -43,6 +43,10 @@ fetch(url + '/movies')
         width: 70%;
         margin-left: 15%;
         border-top: 1px gray solid;
+    }
+
+    .film-total{
+        font-weight: bold;
     }
 
 </style>

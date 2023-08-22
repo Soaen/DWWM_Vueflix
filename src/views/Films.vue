@@ -4,17 +4,25 @@ import { $fetch } from 'ohmyfetch'
  
 const movies = ref([])
 
+const nbShow = ref(10)
+
 const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
   "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"
 ];
 
 onBeforeMount(async () => {
-    movies.value = await $fetch('http://localhost:3000/movies')
+    movies.value = await $fetch('http://localhost:3000/movies?_page=1&_limit=' + nbShow.value)
 });
 
+const loadFilms = async () =>{
+
+    nbShow.value += 10;
+
+    movies.value = await $fetch('http://localhost:3000/movies?_page=1&_limit=' + nbShow.value)
+
+}
 
 </script>
-
 
 <template>
     <div>
@@ -25,22 +33,27 @@ onBeforeMount(async () => {
 
                 <img :src="movie.poster_path" alt="" class="movie-poster">
 
-                <p class="vote-average" :class="{
+                <div class="vote-average"
+                :class="{
 
-                        'vote-green': Math.round(movie.vote_average * 10) >= 70,
-                        'vote-orange': Math.round(movie.vote_average * 10) > 40 && Math.round(movie.vote_average * 10) < 70,
-                        'vote-red': Math.round(movie.vote_average * 10) <= 40
+                'vote-green': Math.round(movie.vote_average * 10) >= 70,
+                'vote-orange': Math.round(movie.vote_average * 10) > 40 && Math.round(movie.vote_average * 10) < 70,
+                'vote-red': Math.round(movie.vote_average * 10) <= 40
 
                 }">
-                {{ Math.round(movie.vote_average*10) }}
-                </p>
+                    
+                    <p>
+                        {{ Math.round(movie.vote_average*10) }}%
+                    </p>
+                </div>
+                
 
                 <div class="movie-text">
                     <div>
                         <p class="original-title">{{ movie.title }}</p>
 
                         <p class="date-format">{{ new Date(movie.release_date).getDay() }} {{ monthNames[new Date(movie.release_date).getMonth()] }} {{ new Date(movie.release_date).getFullYear() }}</p>
-                    </div>
+                </div>
 
 
 
@@ -49,6 +62,8 @@ onBeforeMount(async () => {
             </div>
 
         </div>
+
+        <button @click="loadFilms" class="showmore-btn">Afficher la suite</button>
         
     </div>
 </template>
@@ -64,24 +79,29 @@ h1{
 }
 
 .shop-btn{
-    background-color: rgb(136, 36, 30);;
+    background-color: rgb(198, 28, 28);
     border: 0;
     color: white;
     padding: 10px;
     width: 96%;
+    cursor: pointer;
+    &:hover{
+    background-color: rgb(145, 21, 21);
+    }
 }
 
 .vote-average{
+    display: flex;
     z-index: 10000;
     position: relative;
-    margin-top: -60px;
-    margin-bottom: 30px;
-    margin-left: 20px;
+    margin-top: -70px;
+    margin-left: 10px;
     color: white;
-    width: 20px;
+    width: 50px;
+    height: 50px;
     background-color: black;
-    padding: 10px;
     border-radius: 50%;
+    justify-content: center;
 }
 
 .vote-green{
@@ -113,6 +133,7 @@ h1{
         width: 100%;
     }
     .movie-text{
+        margin-top: 10px;
         height: 25%;
         margin-left: 10px;
         display: flex;
@@ -125,6 +146,19 @@ h1{
         .original-title{
             font-weight: 600;
         }
+    }
+}
+
+.showmore-btn{
+    width: 10%;
+    margin-left: 45%;
+    background-color: rgb(198, 28, 28);
+    border: 0;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    &:hover{
+    background-color: rgb(145, 21, 21);
     }
 }
 

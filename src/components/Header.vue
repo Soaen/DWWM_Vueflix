@@ -112,9 +112,12 @@ a{
 
 .log-class{
     padding: 5px;
-    background-color: rgb(136, 36, 30);
+    background-color: rgb(198, 28, 28);
     border-radius: 5px;
     cursor: pointer;
+    &:hover{
+        background-color: rgb(145, 21, 21);
+    }
 }
 
 .name-container{
