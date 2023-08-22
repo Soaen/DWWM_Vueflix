@@ -28,7 +28,7 @@ import ProfilPicture from '../assets/imgs/pp.jpeg'
 
             <div v-else class="name-container">
 
-                <p>Prénom</p>
+                <p class="name-login">Prénom</p>
 
                 <div>
 
@@ -53,8 +53,10 @@ import ProfilPicture from '../assets/imgs/pp.jpeg'
     display: flex;
     justify-content: start;
     margin-left: 20px;
+    .name-login{
+        font-weight: bold;
+    }
 }
-
 
 .burger-menu{
     position: absolute;
@@ -94,8 +96,7 @@ import ProfilPicture from '../assets/imgs/pp.jpeg'
     height: 4px;
     width: 100%;
     background: white;
-    transition: transform 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95),
-opacity 300ms linear;
+    transition: transform 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95), opacity 300ms linear;
     
     &--first {
       .hamburger--is-open & {

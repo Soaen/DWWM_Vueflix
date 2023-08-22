@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "eslint": "^8.47.0",
+    "ohmyfetch": "^0.4.21",
     "pinia": "^2.1.4",
     "prettier": "^3.0.2",
     "vue": "^3.3.4",
