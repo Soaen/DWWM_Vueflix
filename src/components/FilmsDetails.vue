@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, ref, onBeforeMount } from 'vue'
 import { $fetch } from 'ohmyfetch'
+import ShowActors from './ShowActors.vue'
 
 const props = defineProps({
     filmsId: String,
@@ -27,12 +28,9 @@ const loadFilms = async () =>{
     <div class="top-film" :style="{backgroundImage: 'url('+ props.datas.backdrop_path +')'}" v-if="!isLoading">
         <div class="background-coloration">
 
-        
-
         <img :src="props.datas.poster_path" alt="" class="poster">
         
             <div class="infos-container">
-            
 
                 <h2>{{ props.datas.title }} ({{ new Date(props.datas.release_date).getFullYear() }})</h2>
 
@@ -52,13 +50,20 @@ const loadFilms = async () =>{
                 </div>
                 <p class="tagline">{{ props.datas.tagline }}</p>
                 <p class="text-overview-title">Synopsis</p>
-                <p>{{ props.datas.overview }}</p>
+                <p class="overview">{{ props.datas.overview }}</p>
 
             </div>
 
         </div>
 
     </div>
+
+    <div class="showactors-container">
+
+        <ShowActors :filmsId="props.datas.id"/>
+
+    </div>
+
 </template>
 
 <style lang='scss' scoped>
@@ -70,7 +75,7 @@ const loadFilms = async () =>{
     height: 500px;
     .poster{
         height: 90%;
-        margin-left: 100px;
+        margin-left: 20px;
         margin-top: 25px;
         border-radius: 10px;
     }
@@ -78,7 +83,7 @@ const loadFilms = async () =>{
         display: flex;
         flex-direction: column;
         color: white;
-        margin-left: 10px;
+        margin-left: 30px;
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         height: 100%;
         margin-top: 2.5%;
@@ -118,6 +123,7 @@ const loadFilms = async () =>{
             font-weight: 600;
             font-size: 16px;
         }
+        
     }
     .background-coloration{
         height: 100%;
@@ -126,6 +132,12 @@ const loadFilms = async () =>{
         display: flex;
     flex-direction: row;
     }
+    .showactors-container{
+        height: 100%;
+    }
+    .overview{
+            overflow: hidden;
+        }
 }
 
 </style>
