@@ -1,56 +1,77 @@
 <script setup>
-import { defineProps, ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, onMounted } from 'vue'
 import { $fetch } from 'ohmyfetch'
+import { useRoute } from 'vue-router';
 import ShowActors from './ShowActors.vue'
 
-const props = defineProps({
-    filmsId: String,
-    datas: Object
-});
-
 const filmGenre = ref('')
+const filmDatas = ref([])
 const isLoading = ref(true)
-var hours = Math.floor(props.datas.runtime / 60);          
-var minutes = props.datas.runtime % 60;
+var hours = Math.floor(filmDatas.value.runtime / 60);          
+var minutes = filmDatas.value.runtime % 60;
 
-onBeforeMount(async () => {
-    loadFilms()
+
+
+onBeforeMount(() => {
+    setTimeout(async()=> {
+        filmId.value = route.params.id;
+        await loadFilms(filmId.value);
+
+        hours = Math.floor(filmDatas.value[0].runtime / 60);
+        minutes = filmDatas.value[0].runtime % 60;
+
+        isLoading.value = false;
+    }, 100)
+
 });
-
-const loadFilms = async () =>{
-    filmGenre.value = await $fetch('http://localhost:3000/genres?id=' + props.datas.genreId)
+const loadFilms = async (e) =>{
+    filmDatas.value = await $fetch('http://localhost:3000/movies?id=' + e)
+    filmGenre.value = await $fetch('http://localhost:3000/genres?id=' + filmDatas.value[0].genreId)
     isLoading.value = false
+
 }
+
+const route = useRoute();
+const filmId = ref(route.params.id);
+
+
+
+
 </script>
 
 <template>
 
-    <div class="top-film" :style="{backgroundImage: 'url('+ props.datas.backdrop_path +')'}" v-if="!isLoading">
+
+    <p>{{filmDatas[0].adult}}</p>
+
+
+    <!-- <div class="top-film" :style="{backgroundImage: 'url('+ filmDatas[0].backdrop_path +')'}" v-if="!isLoading">
         <div class="background-coloration">
 
-        <img :src="props.datas.poster_path" alt="" class="poster">
+        <img :src="filmDatas[0].poster_path" alt="" class="poster">
         
             <div class="infos-container">
 
-                <h2>{{ props.datas.title }} ({{ new Date(props.datas.release_date).getFullYear() }})</h2>
+                <h2>{{ filmDatas[0].title }} ({{ new Date(filmDatas[0].release_date).getFullYear() }})</h2>
 
-                <p>{{ new Date(props.datas.release_date).toLocaleDateString('fr') }} - {{ filmGenre[0].name }} - {{ hours }}h{{ minutes }}</p>
+                <p>{{ new Date(filmDatas[0].release_date).toLocaleDateString('fr') }} - - {{ hours }}h{{ minutes }}</p>
                 <div class="vote-average"
                     :class="{
 
-                    'vote-green': Math.round(props.datas.vote_average * 10) >= 70,
-                    'vote-orange': Math.round(props.datas.vote_average * 10) > 40 && Math.round(props.datas.vote_average * 10) < 70,
-                    'vote-red': Math.round(props.datas.vote_average * 10) <= 40
+                    'vote-green': Math.round(filmDatas[0].vote_average * 10) >= 70,
+                    'vote-orange': Math.round(filmDatas[0].vote_average * 10) > 40 && Math.round(filmDatas[0].vote_average * 10) < 70,
+                    'vote-red': Math.round(filmDatas[0].vote_average * 10) <= 40
 
                     }">
                     
                         <p>
-                        {{ Math.round(props.datas.vote_average*10) }}%
+                        {{ Math.round(filmDatas[0].vote_average*10) }}%
                         </p>
                 </div>
-                <p class="tagline">{{ props.datas.tagline }}</p>
+                <p class="tagline">{{ filmDatas[0].tagline }}</p>
                 <p class="text-overview-title">Synopsis</p>
-                <p class="overview">{{ props.datas.overview }}</p>
+                <p>{{ filmId }}</p>
+                <p class="overview">{{ filmDatas[0].overview }}</p>
 
             </div>
 
@@ -60,9 +81,9 @@ const loadFilms = async () =>{
 
     <div class="showactors-container">
 
-        <ShowActors :filmsId="props.datas.id"/>
+        <ShowActors :filmsId="filmDatas[0].id"/>
 
-    </div>
+    </div> -->
 
 </template>
 
