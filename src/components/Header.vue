@@ -4,7 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import { ref } from 'vue'
 import Burger from './Burger.vue'
 const isConnected = ref(false)
-const isResponsive = ref(true)
+const isResponsive = ref(false)
 
 import ProfilPicture from '../assets/imgs/pp.jpeg'
 

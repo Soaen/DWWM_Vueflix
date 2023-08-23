@@ -9,37 +9,38 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: () => import('../views/Home.vue')
     },
     {
       path: '/films/:id?',
       name: 'films',
-      component: Films
+      component: () => import('../views/Films.vue'),
+      props: true,
     },
     {
       path: '/a-propos',
       name: 'a-propos',
-      component: About
+      component: () => import('../views/About.vue')
     },
     {
       path: '/categorie/:id?',
       name: 'categorie',
-      component: About
+      component: () => import('../views/Categories.vue')
     },
     {
       path: '/panier',
       name: 'panier',
-      component: About
+      component: () => import('../views/Panier.vue')
     },
     {
       path: '/inscription',
       name: 'inscription',
-      component: About
+      component: () => import('../views/Inscription.vue')
     },
     {
       path: '/connexion',
       name: 'connexion',
-      component: About
+      component: () => import('../views/Connexion.vue')
     },
   ]
 })
