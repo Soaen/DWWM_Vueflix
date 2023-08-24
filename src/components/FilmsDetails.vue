@@ -124,10 +124,6 @@ setTimeout(() => {
 
     </div>
 
-    
-    </div>
-
-
     <Teleport to="body">
     <Modal :show="showModal" @close="showModal = false">
       <iframe
@@ -142,6 +138,12 @@ setTimeout(() => {
     </Modal>
   </Teleport>
 
+
+    </div>
+
+
+
+
 </template>
 
 <style lang='scss' scoped>
@@ -150,9 +152,9 @@ setTimeout(() => {
     width: 100%;
     background-size:cover;
     box-shadow: inset 0 0 5px 2px #282a2d;
-    height: 500px;
+    height: 480px;
     .poster{
-        height: 90%;
+        height: 400px;
         margin-left: 20px;
         margin-top: 25px;
         border-radius: 10px;
@@ -194,7 +196,7 @@ setTimeout(() => {
             border-radius: 50%;
             justify-content: center;
             p{
-                margin-top: 25%;
+                margin-top: 25%; 
             }
         }
         .text-overview-title{
@@ -217,8 +219,8 @@ setTimeout(() => {
         height: 100%;
     }
     .overview{
-            overflow: hidden;
-        }
+        overflow: hidden;
+    }
 }
 .vote-container{
     display: flex;

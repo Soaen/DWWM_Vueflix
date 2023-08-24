@@ -1,19 +1,20 @@
 <script setup>
-document.title = "VueFlix | Films"
+document.title = "VueFlix | Films";
 import { ref, onBeforeMount } from 'vue';
-import { $fetch } from 'ohmyfetch'
-import LoadingScreen from '../assets/imgs/tail-spin.svg'
-import ShowFilmDetails from '../components/FilmsDetails.vue'
+import { $fetch } from 'ohmyfetch';
+import LoadingScreen from '../assets/imgs/tail-spin.svg';
+import ShowFilmDetails from '../components/FilmsDetails.vue';
 import router from '../router';
 import { useRoute } from 'vue-router';
+import Panier from './Panier.vue';
 
  
-const movies = ref([])
-const moviesTotal = ref([])
+const movies = ref([]);
+const moviesTotal = ref([]);
 
-const nbShow = ref(0)
+const nbShow = ref(0);
 
-const isLoading = ref(true)
+const isLoading = ref(true);
 
 const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
   "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"
@@ -23,7 +24,8 @@ const route = useRoute();
 
 const id = ref(route.params.id);
 
-const tableauFilm = ref()
+const tableauFilm = ref();
+
 
 onBeforeMount(async () => {
     loadFilms()
@@ -50,13 +52,53 @@ const openFilmsInfo = (idfilm, tabfilm) => {
 }
 
 
+import { useCartStore } from '@/stores/cartStore';
+
+const cartStore = useCartStore();
+
+const cartList = ref(cartStore.getCart);
+
+const cartUpdated = ref(false)
+
+
+const cartUpdate = (data) =>{
+    let tempContains = false
+    
+    for (let i = 0; i < cartStore.getCarts.length; i++) {
+        if(cartStore.getCarts[i] == data){
+            tempContains = true
+            cartStore.removeCart(i)
+            if(cartStore.getCarts.length == 0){
+                cartUpdated.value = false
+            }
+        }   
+    }
+
+    if(!tempContains){
+        cartStore.addCart(data)
+        cartList.value = cartStore.getCart
+        cartUpdated.value = true   
+    }
+}
+
+//a changer
+setInterval(()=>{
+
+    if(cartUpdated.value == true && cartStore.getCarts.length == 0){
+        cartUpdated.value = false
+    }
+
+}, 50)
+
 </script>
 
 <template>
     <div v-if="id == ''">
         <h1>Films</h1>
         <p>{{ movies.value }}</p>
-        <div class="global-films-container">
+        <div class="global-contain">
+            
+            <div class="global-films-container">
             <div v-if="isLoading">
                 <img :src="LoadingScreen" alt="" class="loading-screen">
                 <p>Chargement...</p>
@@ -86,11 +128,20 @@ const openFilmsInfo = (idfilm, tabfilm) => {
                         <p class="date-format">{{ new Date(movie.release_date).getDay() }} {{ monthNames[new Date(movie.release_date).getMonth()] }} {{ new Date(movie.release_date).getFullYear() }}</p>
                 </div>
 
-                    <button class="shop-btn">Ajouter au panier</button>
+                    <button class="shop-btn" @click="cartUpdate(movie)">Ajouter au panier</button>
                 </div>
             </div>
 
+
+            
+
+
         </div>
+            <div class="panier-container" v-if="cartUpdated">
+                <Panier/>
+            </div>
+        </div>
+        
 
         <button @click="loadFilms" class="showmore-btn" v-if="!isLoading && nbShow < moviesTotal.length">Afficher la suite</button>
 
@@ -111,6 +162,18 @@ h1{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
 
+}
+
+.global-contain{
+    display: flex;
+    flex-direction: row;
+}
+
+.panier-container{
+    margin-right: 10%;
+    p{
+        font-size: 10px;
+    }
 }
 
 .global-films-container{

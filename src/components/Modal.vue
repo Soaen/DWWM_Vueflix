@@ -19,7 +19,7 @@ const emit = defineEmits(['close'])
 
         <div class="modal-footer">
           <slot name="footer">
-            <button class="modal-default-button" @click="emit('close')">Quitter</button>
+            <button @click="emit('close')">Quitter</button>
           </slot>
         </div>
       </div>
@@ -59,19 +59,6 @@ const emit = defineEmits(['close'])
 .modal-body {
   margin: 20px 0;
 }
-
-.modal-default-button {
-  float: right;
-}
-
-.modal-enter-from {
-  opacity: 0;
-}
-
-.modal-leave-to {
-  opacity: 0;
-}
-
 .modal-enter-from .modal-container,
 .modal-leave-to .modal-container {
   transform: scale(1.1);
