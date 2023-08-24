@@ -1,12 +1,12 @@
 <script setup>
-import { ref, onBeforeMount, onMounted, Suspense } from 'vue'
-import { $fetch } from 'ohmyfetch'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router';
 import ShowActors from './ShowActors.vue'
+import Modal from './Modal.vue'
 
 import { getMovie } from '../api'
 
-const filmGenre = ref({})
+const showModal = ref(false)
 const filmDatas = ref({})
 const isLoading = ref(true)
 
@@ -21,7 +21,6 @@ setTimeout(() => {
     hours = Math.floor(filmDatas.value.runtime / 60);        
     minutes = filmDatas.value.runtime % 60;
     isLoading.value = false
-
 })
 }, 100)
 
@@ -67,23 +66,51 @@ setTimeout(() => {
                 <h2>{{ filmDatas.title }} ({{ new Date(filmDatas.release_date).getFullYear() }})</h2>
 
                 <p>{{ new Date(filmDatas.release_date).toLocaleDateString('fr') }} - {{ filmDatas.genre.name }} - {{ hours }}h{{ minutes }}</p>
-                <div class="vote-average"
-                    :class="{
+                <div class="vote-container">
 
-                    'vote-green': Math.round(filmDatas.vote_average * 10) >= 70,
-                    'vote-orange': Math.round(filmDatas.vote_average * 10) > 40 && Math.round(filmDatas.vote_average * 10) < 70,
-                    'vote-red': Math.round(filmDatas.vote_average * 10) <= 40
 
-                    }">
+                
+                    <div class="vote-average"
+                        :class="{
+
+                        'vote-green': Math.round(filmDatas.vote_average * 10) >= 70,
+                        'vote-orange': Math.round(filmDatas.vote_average * 10) > 40 && Math.round(filmDatas.vote_average * 10) < 70,
+                        'vote-red': Math.round(filmDatas.vote_average * 10) <= 40
+
+                        }">
                     
                         <p>
                         {{ Math.round(filmDatas.vote_average*10) }}%
                         </p>
                 </div>
+
+                <button class="btn-modal" @click="showModal = true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="movie-play-icon"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z"
+                  />
+                </svg>
+
+                <span>Voir la bande annonce</span>
+              </button>
+                </div>
                 <p class="tagline">{{ filmDatas.tagline }}</p>
                 <p class="text-overview-title">Synopsis</p>
                 <p class="overview">{{ filmDatas.overview }}</p>
-
 
             </div>
 
@@ -97,12 +124,23 @@ setTimeout(() => {
 
     </div>
 
-
+    
     </div>
 
 
-
-    
+    <Teleport to="body">
+    <Modal :show="showModal" @close="showModal = false">
+      <iframe
+        width="100%"
+        height="500"
+        :src="`https://www.youtube.com/embed/` + filmDatas.youtube"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </Modal>
+  </Teleport>
 
 </template>
 
@@ -146,7 +184,7 @@ setTimeout(() => {
 
         .vote-average{
             display: flex;
-            z-index: 10000;
+            z-index: 9997;
             position: relative;
             margin-left: 10px;
             color: white;
@@ -179,5 +217,26 @@ setTimeout(() => {
             overflow: hidden;
         }
 }
+.vote-container{
+    display: flex;
+}
 
+
+.btn-modal{
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+    color: white;
+    height: 54px;
+    width: 300px;
+    box-shadow: none;
+    border: none;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    .movie-play-icon{
+        width: 80px;
+        height: 54px;
+    }
+}
 </style>

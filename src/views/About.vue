@@ -2,6 +2,8 @@
 
     import Card from '../components/Card.vue'
 
+    document.title = "VueFlix | A Propos" 
+
 </script>
 
 <template>

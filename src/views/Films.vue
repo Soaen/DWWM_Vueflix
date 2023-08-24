@@ -1,4 +1,5 @@
 <script setup>
+document.title = "VueFlix | Films"
 import { ref, onBeforeMount } from 'vue';
 import { $fetch } from 'ohmyfetch'
 import LoadingScreen from '../assets/imgs/tail-spin.svg'
@@ -30,7 +31,7 @@ onBeforeMount(async () => {
     // A changer pcq nul
     window.setInterval(function(){
         if(route.params.id != id.value){
-            id.value = route.params.id
+            id.value = route.params.id   
         }
     }, 100);
 });
