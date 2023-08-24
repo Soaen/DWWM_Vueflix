@@ -97,7 +97,7 @@ const openFilmsInfo = (idfilm, tabfilm) => {
 
     <div v-else>
 
-        <ShowFilmDetails v-bind:filmsId='route.params.id' v-bind:datas="tableauFilm"/>
+        <ShowFilmDetails/>
 
     </div>
 </template>

@@ -1,77 +1,89 @@
 <script setup>
-import { ref, onBeforeMount, onMounted } from 'vue'
+import { ref, onBeforeMount, onMounted, Suspense } from 'vue'
 import { $fetch } from 'ohmyfetch'
 import { useRoute } from 'vue-router';
 import ShowActors from './ShowActors.vue'
 
-const filmGenre = ref('')
-const filmDatas = ref([])
+import { getMovie } from '../api'
+
+const filmGenre = ref({})
+const filmDatas = ref({})
 const isLoading = ref(true)
-var hours = Math.floor(filmDatas.value.runtime / 60);          
-var minutes = filmDatas.value.runtime % 60;
 
+let hours   
+let minutes
 
+const route = useRoute()
 
-onBeforeMount(() => {
-    setTimeout(async()=> {
-        filmId.value = route.params.id;
-        await loadFilms(filmId.value);
-
-        hours = Math.floor(filmDatas.value[0].runtime / 60);
-        minutes = filmDatas.value[0].runtime % 60;
-
-        isLoading.value = false;
-    }, 100)
-
-});
-const loadFilms = async (e) =>{
-    filmDatas.value = await $fetch('http://localhost:3000/movies?id=' + e)
-    filmGenre.value = await $fetch('http://localhost:3000/genres?id=' + filmDatas.value[0].genreId)
+setTimeout(() => {
+    getMovie(route.params.id).then(reponse => {
+    filmDatas.value = reponse
+    hours = Math.floor(filmDatas.value.runtime / 60);        
+    minutes = filmDatas.value.runtime % 60;
     isLoading.value = false
 
-}
-
-const route = useRoute();
-const filmId = ref(route.params.id);
+})
+}, 100)
 
 
 
+
+
+// onBeforeMount(() => {
+//     setTimeout(async()=> {
+//         filmId.value = route.params.id;
+//         await loadFilms(filmId.value);
+
+//         hours = Math.floor(filmDatas.value[0].runtime / 60);
+//         minutes = filmDatas.value[0].runtime % 60;
+
+//         isLoading.value = false;
+//     }, 100)
+
+// });
+// const loadFilms = async (e) =>{
+//     filmDatas.value = await $fetch('http://localhost:3000/movies?id=' + e)
+//     filmGenre.value = await $fetch('http://localhost:3000/genres?id=' + filmDatas.value[0].genreId)
+//     isLoading.value = false
+
+// }
+
+// const route = useRoute();
+// const filmId = ref(route.params.id);
 
 </script>
 
 <template>
 
+    <div v-if="!isLoading">
 
-    <p>{{filmDatas[0].adult}}</p>
-
-
-    <!-- <div class="top-film" :style="{backgroundImage: 'url('+ filmDatas[0].backdrop_path +')'}" v-if="!isLoading">
+        <div class="top-film" :style="{backgroundImage: 'url('+ filmDatas.backdrop_path +')'}" >
         <div class="background-coloration">
 
-        <img :src="filmDatas[0].poster_path" alt="" class="poster">
+        <img :src="filmDatas.poster_path" alt="" class="poster">
         
             <div class="infos-container">
 
-                <h2>{{ filmDatas[0].title }} ({{ new Date(filmDatas[0].release_date).getFullYear() }})</h2>
+                <h2>{{ filmDatas.title }} ({{ new Date(filmDatas.release_date).getFullYear() }})</h2>
 
-                <p>{{ new Date(filmDatas[0].release_date).toLocaleDateString('fr') }} - - {{ hours }}h{{ minutes }}</p>
+                <p>{{ new Date(filmDatas.release_date).toLocaleDateString('fr') }} - {{ filmDatas.genre.name }} - {{ hours }}h{{ minutes }}</p>
                 <div class="vote-average"
                     :class="{
 
-                    'vote-green': Math.round(filmDatas[0].vote_average * 10) >= 70,
-                    'vote-orange': Math.round(filmDatas[0].vote_average * 10) > 40 && Math.round(filmDatas[0].vote_average * 10) < 70,
-                    'vote-red': Math.round(filmDatas[0].vote_average * 10) <= 40
+                    'vote-green': Math.round(filmDatas.vote_average * 10) >= 70,
+                    'vote-orange': Math.round(filmDatas.vote_average * 10) > 40 && Math.round(filmDatas.vote_average * 10) < 70,
+                    'vote-red': Math.round(filmDatas.vote_average * 10) <= 40
 
                     }">
                     
                         <p>
-                        {{ Math.round(filmDatas[0].vote_average*10) }}%
+                        {{ Math.round(filmDatas.vote_average*10) }}%
                         </p>
                 </div>
-                <p class="tagline">{{ filmDatas[0].tagline }}</p>
+                <p class="tagline">{{ filmDatas.tagline }}</p>
                 <p class="text-overview-title">Synopsis</p>
-                <p>{{ filmId }}</p>
-                <p class="overview">{{ filmDatas[0].overview }}</p>
+                <p class="overview">{{ filmDatas.overview }}</p>
+
 
             </div>
 
@@ -81,9 +93,16 @@ const filmId = ref(route.params.id);
 
     <div class="showactors-container">
 
-        <ShowActors :filmsId="filmDatas[0].id"/>
+        <ShowActors :actorsDatas="filmDatas.actors"/>
 
-    </div> -->
+    </div>
+
+
+    </div>
+
+
+
+    
 
 </template>
 

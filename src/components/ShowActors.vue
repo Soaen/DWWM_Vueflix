@@ -4,7 +4,7 @@ import { $fetch } from 'ohmyfetch'
 
 
 const props = defineProps({
-    filmsId: Number,
+    actorsDatas: Object,
 });
 
 const casting = ref([])
@@ -20,8 +20,8 @@ function getAge(dateString) {
     return age;
 }
 
-onBeforeMount(async () =>{
-    casting.value = await $fetch('http://localhost:3000/actors?moviesId=' + props.filmsId)
+onBeforeMount( () =>{
+    casting.value = props.actorsDatas
 
     }
 )
@@ -51,9 +51,12 @@ onBeforeMount(async () =>{
             </div>
 
 
+        </div> 
+    
         </div>
+   
 
-        </div>
+        
     </div>
 
 </template>
