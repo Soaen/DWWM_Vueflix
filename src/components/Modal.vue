@@ -19,7 +19,7 @@ const emit = defineEmits(['close'])
 
         <div class="modal-footer">
           <slot name="footer">
-            <button class="modal-default-button" @click="emit('close')">OK</button>
+            <button class="modal-default-button" @click="emit('close')">Quitter</button>
           </slot>
         </div>
       </div>

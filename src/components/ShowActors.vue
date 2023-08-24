@@ -32,30 +32,33 @@ onBeforeMount( () =>{
 
         <h3>Casting</h3>
 
-
         <div  class="casting-container">
 
-            <div v-for="actor in casting" class="actor-fullcontain">
+
+            <div
+          v-for="actor in casting
+            ?.filter((actor) => actor.profile_path)
+            .sort((actorA, actorB) => (actorA.order > actorB.order ? 1 : -1))"
+          :key="actor.id"
+          class="actor-fullcontain"
+        >
             
-            <div class="actor-container">
+                <div class="actor-container">
 
-                <img :src="actor.profile_path" alt="">
+                    <img :src="actor.profile_path" alt="">
                 
-                <div class="actor-info">
+                    <div class="actor-info">
 
-                    <p class="actor-name">{{ actor.name }} ({{ getAge(actor.birthday) }} ans)</p>
-                    <p class="character-name">{{ actor.character }}</p>
+                        <p class="actor-name">{{ actor.name }} ({{ getAge(actor.birthday) }} ans)</p>
+                        <p class="character-name">{{ actor.character }}</p>
+
+                    </div>
 
                 </div>
 
-            </div>
-
-
-        </div> 
+            </div> 
     
         </div>
-   
-
         
     </div>
 
@@ -83,7 +86,7 @@ body{
         flex-wrap: wrap;
         row-gap: 70px;
         .actor-fullcontain{
-            height: 360px;
+            height: 440px;
             background-color: white;
             border-radius: 10px;
             margin: 20px;

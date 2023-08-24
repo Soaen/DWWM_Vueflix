@@ -62,7 +62,7 @@ const openFilmsInfo = (idfilm, tabfilm) => {
                 <p>Chargement...</p>
             </div>
 
-            <div v-else v-for="movie in movies" class="movies-container">
+            <div v-else v-for="(movie, index) in movies" class="movies-container" :key="index">
                 <img :src="movie.poster_path" alt="" class="movie-poster" @click="openFilmsInfo(movie.id, movie)">
 
                 <div class="vote-average"

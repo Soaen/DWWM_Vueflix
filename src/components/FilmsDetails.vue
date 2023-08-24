@@ -63,7 +63,7 @@ setTimeout(() => {
         
             <div class="infos-container">
 
-                <h2>{{ filmDatas.title }} ({{ new Date(filmDatas.release_date).getFullYear() }})</h2>
+                <h2>{{ filmDatas.title }} <span class="date-details">({{ new Date(filmDatas.release_date).getFullYear() }})</span></h2>
 
                 <p>{{ new Date(filmDatas.release_date).toLocaleDateString('fr') }} - {{ filmDatas.genre.name }} - {{ hours }}h{{ minutes }}</p>
                 <div class="vote-container">
@@ -200,6 +200,9 @@ setTimeout(() => {
         .text-overview-title{
             font-weight: 600;
             font-size: 16px;
+        }
+        .date-details{
+            font-weight:  normal;
         }
         
     }
