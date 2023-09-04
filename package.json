@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "dayjs": "^1.11.9",
     "eslint": "^8.47.0",
     "ohmyfetch": "^0.4.21",
     "pinia": "^2.1.4",

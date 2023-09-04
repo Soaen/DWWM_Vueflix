@@ -1,6 +1,5 @@
 <script setup>
 import { defineProps, ref, onBeforeMount } from 'vue'
-import { $fetch } from 'ohmyfetch'
 
 
 const props = defineProps({

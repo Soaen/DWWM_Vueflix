@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router';
 import ShowActors from './ShowActors.vue'
+import ShowCom from './ShowCom.vue'
 import Modal from './Modal.vue'
 
 import { getMovie } from '../api'
@@ -124,6 +125,13 @@ setTimeout(() => {
 
     </div>
 
+
+    <div class="showcom-container">
+
+        <ShowCom/>
+
+    </div>
+
     <Teleport to="body">
     <Modal :show="showModal" @close="showModal = false">
       <iframe
@@ -243,5 +251,12 @@ setTimeout(() => {
         width: 80px;
         height: 54px;
     }
+}
+
+.showcom-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 </style>

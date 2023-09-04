@@ -170,7 +170,7 @@ h1{
 }
 
 .panier-container{
-    margin-right: 10%;
+    margin-right: 60px;
     p{
         font-size: 10px;
     }
